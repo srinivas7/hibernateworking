@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.Emp;
+
 @RestController
 public class MainController {
 	
@@ -13,9 +15,12 @@ public class MainController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test() {
 		try {
-			
+			Emp emp1 = new Emp(1,"srinivas");
 			session.beginTransaction();
-			HibernateUtil.shutdown();
+			session.save(emp1);
+			session.getTransaction().commit();
+			session.close();
+			//HibernateUtil.shutdown();
 
 		}catch (Exception e) {
 			 e.printStackTrace();
