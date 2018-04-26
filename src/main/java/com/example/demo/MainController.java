@@ -5,7 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.Album;
 import com.example.model.Emp;
+import com.example.model.Image;
+import com.example.model.UserInfo;
 
 @RestController
 public class MainController {
@@ -16,8 +19,18 @@ public class MainController {
 	public String test() {
 		try {
 			Emp emp1 = new Emp(1,"srinivas");
+			Album album = new Album(112, "second album");
+			UserInfo userInfo = new UserInfo(3434,"new user");
+			
+			Image image = new Image(555,"first image");
+			image.setAlbum(album);
+			
+			album.setUserInfo(userInfo);
+			
 			session.beginTransaction();
-			session.save(emp1);
+			//session.save(emp1);
+			//session.save(album);
+			session.save(image);
 			session.getTransaction().commit();
 			session.close();
 			//HibernateUtil.shutdown();
@@ -27,5 +40,11 @@ public class MainController {
 		}
 		return "test route";
 	}
+	
+	@RequestMapping(value = "/getAlbums", method = RequestMethod.GET)
+	public String getAlbums() {
+		return "albums";
+	}
+	
 
 }
