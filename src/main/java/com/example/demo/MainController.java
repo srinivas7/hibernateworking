@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.hibernate.Session;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +47,16 @@ public class MainController {
 		return "albums";
 	}
 	
+
+	@RequestMapping(value = "/addEmp", method = RequestMethod.POST)
+	public int addEmp(@RequestBody Emp emp) {
+		System.out.println("from /addEmp");
+		session.beginTransaction();
+		int id = (int)session.save(emp);
+		session.getTransaction().commit();
+		session.close();
+		return id;
+	}
+
 
 }
