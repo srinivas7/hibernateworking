@@ -24,6 +24,8 @@ public class Album {
 	@JoinColumn(name="user_id")
 	private UserInfo userInfo;
 	
+	public Album() {}
+	
 	public Album(int id, String name) {
 		this.id = id;
 		this.name = name;

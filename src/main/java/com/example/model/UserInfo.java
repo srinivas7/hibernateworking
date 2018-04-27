@@ -16,6 +16,7 @@ public class UserInfo {
 	@Column(name = "user_name")
 	String userName;
 	
+	public UserInfo() {}
 	
 	public UserInfo(int userId, String userName) {
 		this.userId = userId;

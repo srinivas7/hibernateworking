@@ -22,6 +22,7 @@ public class Image {
 	@JoinColumn(name = "album_id")
 	Album album;
 	
+	public Image() {}
 	
 	public Image(int image_id, String image_name) {
 		this.image_id = image_id;

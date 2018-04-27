@@ -1,10 +1,19 @@
 package com.example.demo;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.DAO.AlbumsDAO;
+import com.example.DAO.AlbumsDAOImpl;
 import com.example.model.Album;
 import com.example.model.Emp;
 import com.example.model.Image;
@@ -14,6 +23,11 @@ import com.example.model.UserInfo;
 public class MainController {
 	
 	Session session = HibernateUtil.getSessionFactory().openSession();
+	
+	@Autowired
+	AlbumsDAOImpl albumsDaoImpl;
+	
+	EntityManager em;
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test() {
@@ -28,12 +42,9 @@ public class MainController {
 			album.setUserInfo(userInfo);
 			
 			session.beginTransaction();
-			//session.save(emp1);
-			//session.save(album);
 			session.save(image);
 			session.getTransaction().commit();
-			session.close();
-			//HibernateUtil.shutdown();
+			HibernateUtil.shutdown();
 
 		}catch (Exception e) {
 			 e.printStackTrace();
@@ -41,10 +52,14 @@ public class MainController {
 		return "test route";
 	}
 	
-	@RequestMapping(value = "/getAlbums", method = RequestMethod.GET)
-	public String getAlbums() {
-		return "albums";
+	@RequestMapping(value = "/getAlbums/{userId}", method = RequestMethod.GET, produces="application/json")
+	public List<Album> getAlbums(@PathVariable("userId") int userId) {
+		return albumsDaoImpl.getAlbums(userId);
 	}
 	
+	@RequestMapping(value = "/getAlbumInfo/{albumId}", method = RequestMethod.GET, produces="application/json")
+	public Map getAlbumInfo(@PathVariable("albumId") int albumId) {
+		return albumsDaoImpl.getAlbumData(albumId);
+	}
 
 }
