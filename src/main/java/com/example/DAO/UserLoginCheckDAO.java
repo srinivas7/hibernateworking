@@ -1,6 +1,7 @@
 package com.example.DAO;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -18,22 +19,24 @@ import com.example.model.UserLogin;
 public class UserLoginCheckDAO {
 	
 	Session session = HibernateUtil.getSessionFactory().openSession();
-	//Transaction tr = session.beginTransaction();
-	EntityManager em;
 	
-	@Transactional
 	public boolean checkUserLogin(UserLogin userLoginData){
-		//Session session = HibernateUtil.getSessionFactory().openSession();
+
 		session.beginTransaction();
         List userLoginInfo = session.createQuery("from UserLogin").list();
-		System.out.println("user login info is..."+ userLoginInfo);
 		session.getTransaction().commit();
-		session.close();
-		HibernateUtil.shutdown();
 		String enteredUN = userLoginData.getUserName();
         String enteredPWD = userLoginData.getPwd();
         
+        ListIterator<UserLogin> li = userLoginInfo.listIterator();
         
-		return true;
+        while(li.hasNext()) {
+        	UserLogin ul = li.next();
+        	if(ul.userName.equals(enteredUN) && ul.pwd.equals(enteredPWD)) {
+        		return true;
+        	}
+        }
+        
+		return false;
 	}
 }

@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.model.UserLogin;
 import com.example.DAO.AlbumsDAO;
 import com.example.DAO.AlbumsDAOImpl;
+import com.example.DAO.DashboardDAO;
 import com.example.DAO.UserLoginCheckDAO;
 import com.example.model.Album;
 import com.example.model.Emp;
 import com.example.model.Image;
+import com.example.model.UserDashBoard;
 import com.example.model.UserInfo;
 
 @RestController
@@ -37,6 +40,9 @@ public class MainController {
 	
 	@Autowired
 	UserLoginCheckDAO userLoginCheck;
+	
+	@Autowired
+	DashboardDAO dashboard;
 	
 	EntityManager em;
 	
@@ -87,30 +93,20 @@ public class MainController {
 	
 	@Consumes({MediaType.APPLICATION_JSON})
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ResponseEntity<String> login(@RequestBody UserLogin userLogin) {
-                String login;
-                HashMap<String, String> userInfo = new HashMap();
-                userInfo.put("aaa", "aaa");
-                userInfo.put("bbb", "bbb");
-                userInfo.put("ccc", "ccc");
-                userLoginCheck.checkUserLogin(userLogin);
-                String enteredUN = userLogin.getUserName();
-                String enteredPWD = userLogin.getPwd();
+	public ResponseEntity login(@RequestBody UserLogin userLogin) {
+                boolean login;
+                login = userLoginCheck.checkUserLogin(userLogin);
                 
-//                for (HashMap.Entry<String, String> entry : userInfo.entrySet()) {
-//        		    System.out.println(entry.getKey() + " = " + entry.getValue());
-//        		}
-//                
-//                System.out.println(userInfo.get(userLogin.getUserName()));
-//                if(userInfo.containsKey(userLogin.getUserName()) && userLogin.getPwd().equals(userInfo.get(userLogin.getUserName()))) {
-//                	System.out.println("valid login");
-//                	login = "valid login";
-//                }else {
-//                	System.out.println("in-valid login");
-//                	login = "in-valid login";
-//                }
-                login = "in-valid login";
-                return new ResponseEntity<String >(login, HttpStatus.OK);
+                return new ResponseEntity(login, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/dashBoardInfo/{userId}", method=RequestMethod.GET)
+	public ResponseEntity<ArrayList<UserDashBoard>> dashBoardInfo(@PathVariable int userId) {
+		System.out.println("use id is..."+ userId);
+		ArrayList<UserDashBoard> al = dashboard.getDashBoardData(userId);
+		
+		return new ResponseEntity(al, HttpStatus.OK);
+		
 	}
 	
 
