@@ -1,20 +1,27 @@
 package com.example.demo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.UserLogin;
 import com.example.DAO.AlbumsDAO;
 import com.example.DAO.AlbumsDAOImpl;
+import com.example.DAO.UserLoginCheckDAO;
 import com.example.model.Album;
 import com.example.model.Emp;
 import com.example.model.Image;
@@ -27,6 +34,9 @@ public class MainController {
 	
 	@Autowired
 	AlbumsDAOImpl albumsDaoImpl;
+	
+	@Autowired
+	UserLoginCheckDAO userLoginCheck;
 	
 	EntityManager em;
 	
@@ -73,6 +83,36 @@ public class MainController {
 		session.close();
 		return id;
 	}
+	
+	
+	@Consumes({MediaType.APPLICATION_JSON})
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public ResponseEntity<String> login(@RequestBody UserLogin userLogin) {
+                String login;
+                HashMap<String, String> userInfo = new HashMap();
+                userInfo.put("aaa", "aaa");
+                userInfo.put("bbb", "bbb");
+                userInfo.put("ccc", "ccc");
+                userLoginCheck.checkUserLogin(userLogin);
+                String enteredUN = userLogin.getUserName();
+                String enteredPWD = userLogin.getPwd();
+                
+//                for (HashMap.Entry<String, String> entry : userInfo.entrySet()) {
+//        		    System.out.println(entry.getKey() + " = " + entry.getValue());
+//        		}
+//                
+//                System.out.println(userInfo.get(userLogin.getUserName()));
+//                if(userInfo.containsKey(userLogin.getUserName()) && userLogin.getPwd().equals(userInfo.get(userLogin.getUserName()))) {
+//                	System.out.println("valid login");
+//                	login = "valid login";
+//                }else {
+//                	System.out.println("in-valid login");
+//                	login = "in-valid login";
+//                }
+                login = "in-valid login";
+                return new ResponseEntity<String >(login, HttpStatus.OK);
+	}
+	
 
 
 }

@@ -7,7 +7,7 @@
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">root</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/abn</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3311/abn</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="jpa.properties.hibernate.hbm2ddl.auto">update</property>
@@ -23,5 +23,6 @@
         <mapping class="com.example.model.Album"/>
         <mapping class="com.example.model.UserInfo"/>
         <mapping class="com.example.model.Image"/>
+        <mapping class="com.example.model.UserLogin"/>
     </session-factory>
 </hibernate-configuration>
