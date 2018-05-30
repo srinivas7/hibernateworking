@@ -33,6 +33,7 @@ public class MainController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test() {
 		try {
+			System.out.println("asdf");
 			Emp emp1 = new Emp(1,"srinivas");
 			Album album = new Album(112, "second album");
 			UserInfo userInfo = new UserInfo(3434,"new user");
