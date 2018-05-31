@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_data")
 public class UserLogin {
 
 	@Column(name="name")
@@ -17,7 +17,7 @@ public class UserLogin {
 	@Column(name="pwd")
 	public String pwd;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private Integer id;
 	

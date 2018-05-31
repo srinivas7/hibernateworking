@@ -109,6 +109,20 @@ public class MainController {
 		
 	}
 	
-
+	@Consumes({MediaType.APPLICATION_JSON})
+	@RequestMapping(value="/signup", method=RequestMethod.POST)
+	public ResponseEntity signup(@RequestBody UserLogin userLogin) {
+		
+		boolean login = false;
+		try{
+			 login = userLoginCheck.createUser(userLogin);
+		     return new ResponseEntity(login, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity(login, HttpStatus.OK);
+		}
+		
+       
+        
+	}
 
 }
